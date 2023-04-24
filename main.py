@@ -1,7 +1,6 @@
 import pandas
 import ast
-import time
-import numpy
+import time # if required
 from sklearn.metrics.pairwise import cosine_similarity
 from sklearn.feature_extraction.text import CountVectorizer
 
