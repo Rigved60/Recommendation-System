@@ -1,23 +1,16 @@
-import pandas as pd
-
+import pandas
 import ast
-
 import time
-
-import numpy as np
-
+import numpy
 from sklearn.metrics.pairwise import cosine_similarity
-
 from sklearn.feature_extraction.text import CountVectorizer
 
-movies = pd.read_csv('5000_movies.csv')
-creditss = pd.read_csv('5000_credits.csv')
+movies = pandas.read_csv('tmbd_5000_movies.csv')    #Loading The CSV files
+creditss = pandas.read_csv('tmbd_5000_credits.csv')
 
 cv = CountVectorizer(max_features=5000, stop_words='english')
 
 movies = movies.merge(creditss,on='title')
-li_title = list(movies['title'])
-
 
 def convert(obj):
     L = []
@@ -54,10 +47,9 @@ movies['genres'] = movies['genres'].apply(lambda r: [i.replace(" ", "") for i in
 movies['keywords'] = movies['keywords'].apply(lambda r: [i.replace(" ", "") for i in r])
 movies['cast'] = movies['cast'].apply(lambda r: [i.replace(" ", "") for i in r])
 movies['crew'] = movies['crew'].apply(lambda r: [i.replace(" ", "") for i in r])
-
-df = movies[['movie_id', 'title', 'tags']]
-
 movies['tags'] = movies['tags'].apply(lambda x: " ".join(x))
+
+df = movies[['movie_id', 'title', 'tags']] #needed Data
 
 vectors = cv.fit_transform(movies['tags']).toarray()
 
@@ -76,9 +68,9 @@ print()
 def recommend(movie):
     movie_index = df[df['title'] == movie].index[0]
     distances = similarity[movie_index] 
-    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda m:m[1])[1:6]
+    movie_list = sorted(list(enumerate(distances)), reverse=True, key=lambda x:x[1])
 
-    for i in movie_list:
+    for i in movie_list[1:6]:
         print(df.iloc[i[0]].title)
 
 recommend(movie_input)
