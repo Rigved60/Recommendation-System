@@ -1,0 +1,9 @@
+pandas
+sklearn
+
+#enter the following commnd in the terminal for installing the required packages:
+
+pip install -r requirements.txt
+
+#note 
+delete all text in the file except the above packages while entering the command..
